@@ -46,6 +46,11 @@ async function run() {
             const service = await cursor.toArray();
             res.send(service);
         });
+        app.get('/hotels', async (req, res) => {
+            const cursor = hotelCollection.find({});
+            const hotel = await cursor.toArray();
+            res.send(hotel);
+        });
 
         app.get('/services/:id', async (req, res) => {
             const id = req.params.id;
