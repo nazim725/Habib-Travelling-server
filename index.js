@@ -20,7 +20,7 @@ async function run() {
     try {
         await client.connect();
         const database = client.db("Habib's-Travelling");
-        // create database collection
+
         const serviceCollection = database.collection("services");
         const orderCollection = database.collection("orders");
         // console.log('database connected')
@@ -28,7 +28,7 @@ async function run() {
 
         app.post('/services', async (req, res) => {
             const service = req.body;
-            // console.log('hit the post api', breakfast);
+
             const result = await serviceCollection.insertOne(service);
             // console.log(result);
             res.json(result)
@@ -46,19 +46,21 @@ async function run() {
             const service = await serviceCollection.findOne(query);
             res.json(service);
         });
+        // Post order to the database
         app.post('/orders', async (req, res) => {
             const order = req.body;
-            // console.log('hit the post api', breakfast);
+
             const result = await orderCollection.insertOne(order);
             // console.log(result);
             res.json(result)
         });
-
+        // get an Order
         app.get('/orders', async (req, res) => {
             const cursor = orderCollection.find({});
             const order = await cursor.toArray();
             res.send(order);
         });
+        // Delete an Order
         app.delete('/orders/:id', async (req, res) => {
             const id = req.params.id;
             const query = { _id: ObjectId(id) };
