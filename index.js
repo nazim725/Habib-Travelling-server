@@ -26,7 +26,7 @@ async function run() {
         const hotelCollection = database.collection("hotels");
         // console.log('database connected')
 
-
+        // send services to the database
         app.post('/services', async (req, res) => {
             const service = req.body;
 
@@ -34,6 +34,7 @@ async function run() {
             // console.log(result);
             res.json(result)
         });
+         // send hotels data to the database
         app.post('/hotels', async (req, res) => {
             const hotel = req.body;
 
@@ -41,17 +42,19 @@ async function run() {
             // console.log(result);
             res.json(result)
         });
+        // get all data from services database
         app.get('/services', async (req, res) => {
             const cursor = serviceCollection.find({});
             const service = await cursor.toArray();
             res.send(service);
         });
+        // get all data from hotels database
         app.get('/hotels', async (req, res) => {
             const cursor = hotelCollection.find({});
             const hotel = await cursor.toArray();
             res.send(hotel);
         });
-
+        // get a single data from services database
         app.get('/services/:id', async (req, res) => {
             const id = req.params.id;
             console.log('getting specific service', id);
@@ -67,7 +70,7 @@ async function run() {
             // console.log(result);
             res.json(result)
         });
-        // get an Order
+        //  // get a single order from order database
         app.get('/orders', async (req, res) => {
             const cursor = orderCollection.find({});
             const order = await cursor.toArray();
@@ -80,6 +83,7 @@ async function run() {
             const result = await orderCollection.deleteOne(query);
             res.json(result);
         })
+        // get a single order from order datbase
         app.get('/orders/:id', async (req, res) => {
             const id = req.params.id;
             console.log('getting specific service', id);
