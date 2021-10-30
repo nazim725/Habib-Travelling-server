@@ -23,6 +23,7 @@ async function run() {
 
         const serviceCollection = database.collection("services");
         const orderCollection = database.collection("orders");
+        const hotelCollection = database.collection("hotels");
         // console.log('database connected')
 
 
@@ -30,6 +31,13 @@ async function run() {
             const service = req.body;
 
             const result = await serviceCollection.insertOne(service);
+            // console.log(result);
+            res.json(result)
+        });
+        app.post('/hotels', async (req, res) => {
+            const hotel = req.body;
+
+            const result = await hotelCollection.insertOne(hotel);
             // console.log(result);
             res.json(result)
         });
@@ -67,6 +75,34 @@ async function run() {
             const result = await orderCollection.deleteOne(query);
             res.json(result);
         })
+        app.get('/orders/:id', async (req, res) => {
+            const id = req.params.id;
+            console.log('getting specific service', id);
+            const query = { _id: ObjectId(id) };
+            const status = await orderCollection.findOne(query);
+            res.json(status);
+        });
+        // update data into order collection
+        app.put('/orders/:id', async (req, res) => {
+            const id = req.params.id;
+            console.log('updating', id)
+            const updatedStatus = req.body;
+            const filter = { _id: ObjectId(id) };
+            const options = { upsert: true };
+            const updateDoc = {
+                $set: {
+                    status: updatedStatus.status
+
+
+                },
+            };
+            const result = await orderCollection.updateOne(filter, updateDoc, options)
+            console.log('updating', id)
+            res.json(result)
+
+
+        });
+
 
     }
     finally {
