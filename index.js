@@ -67,7 +67,7 @@ async function run() {
             const id = req.params.id;
             console.log('getting specific service', id);
             const query = { _id: ObjectId(id) };
-            const hotel = await serviceCollection.findOne(query);
+            const hotel = await hotelCollection.findOne(query);
             res.json(hotel);
         });
         // Post order to the database
