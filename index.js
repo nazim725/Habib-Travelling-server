@@ -62,6 +62,14 @@ async function run() {
             const service = await serviceCollection.findOne(query);
             res.json(service);
         });
+        // get a single data from hotel database
+        app.get('/hotels/:id', async (req, res) => {
+            const id = req.params.id;
+            console.log('getting specific service', id);
+            const query = { _id: ObjectId(id) };
+            const hotel = await serviceCollection.findOne(query);
+            res.json(hotel);
+        });
         // Post order to the database
         app.post('/orders', async (req, res) => {
             const order = req.body;
